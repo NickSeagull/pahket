@@ -32,3 +32,10 @@ before_build:
 build_script:
   - cabal %CABOPTS% build --enable-tests all
   - cabal %CABOPTS% test  --enable-tests all
+
+skip_commits:
+  files:
+    - "**/*.md"
+    - "**/*.html"
+    - "hie.yaml"
+    - ".gitignore"

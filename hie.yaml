@@ -1,0 +1,10 @@
+cradle:
+  cabal:
+    - path: "runner/benchmark"
+      component: "benchmark:pahket-benchmark"
+    - path: "runner/app"
+      component: "exe:pahket"
+    - path: "runner/test"
+      component: "test:pahket-test"
+    - path: "runner/src"
+      component: "lib:pahket"

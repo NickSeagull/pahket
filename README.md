@@ -1,7 +1,8 @@
-# pahket
+# Pahket
 
 [![Windows build status](https://ci.appveyor.com/api/projects/status/github/NickSeagull/pahket?branch=master&svg=true)](https://ci.appveyor.com/project/NickSeagull/pahket)
-[![Hackage](https://img.shields.io/hackage/v/pahket.svg?logo=haskell)](https://hackage.haskell.org/package/pahket)
-[![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![GitHub License](https://img.shields.io/github/license/nickseagull/pahket)
+[![gitmoji](https://img.shields.io/badge/gitmoji-%20%F0%9F%98%9C%20%F0%9F%98%8D-FFDD67.svg)](https://gitmoji.carloscuesta.me)
+[![Simple Haskell](http://simplehaskell.org/badges/badge.svg)](http://simplehaskell.org)
 
-See README for more info
+---

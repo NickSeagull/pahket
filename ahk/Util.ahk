@@ -1,6 +1,3 @@
-SetWorkingDir, % A_ScriptDir
-#Include C:\Users\nikit\dev\pahket\ahk\Jxon.ahk
-
 print(msg)
 {
   ; TODO: Load port from env var
@@ -37,9 +34,3 @@ pahket_exit_server()
   }
   ToolTip, % msg
 }
-
-print("hello")
-print("hello1")
-print("hello2")
-print("hello3")
-pahket_exit_server()

@@ -3,11 +3,11 @@ module Pahket
   )
 where
 
--- import Pahket.Core
-
 import Control.Concurrent (forkIO, killThread)
 import Network.HTTP.Types.Status
 import Network.Wai.Handler.Warp (defaultSettings, setPort)
+import qualified Pahket.AHK as AHK
+import Pahket.Core
 import Web.Scotty as HTTP
 
 run :: IO ()
@@ -24,7 +24,8 @@ run = do
       status status200
       putMVar finishIt ()
       text ""
-  forever $ do
-    x <- readMVar finishIt
+  _ <- forkIO $ forever $ do
+    _ <- readMVar finishIt
     killThread t
     exitSuccess
+  runApp simpleEnv $ AHK.run AHK.exampleProgram

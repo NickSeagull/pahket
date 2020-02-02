@@ -17,7 +17,7 @@ run ::
   Text ->
   m ()
 run contents = Temp.withSystemTempFile "pahket-eval.ahk" $ \filepath hnd -> do
-  liftIO $ IO.hPutStrLn hnd (toString contents)
+  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket contents)
   liftIO $ IO.hFlush hnd
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
   let args = ["/ErrorStdOut", filepath, "2>&1", "|more"]
@@ -28,15 +28,23 @@ run contents = Temp.withSystemTempFile "pahket-eval.ahk" $ \filepath hnd -> do
   log I "StdErr"
   log I (decodeUtf8 err)
 
+preparePahket :: Text -> Text
+preparePahket script =
+  [i|
+  #{includeJxon}
+  #{includeUtil}
+  #{script}
+  pahket_exit_server()
+  |]
+  where
+    includeJxon = $(embedStringFile "ahk/Jxon.ahk") :: Text
+    includeUtil = $(embedStringFile "ahk/Util.ahk") :: Text
+
 exampleProgram :: Text
 exampleProgram =
   [i|
-#{utilSource}
-try {
-  throw Exception("Fail", -1)
-} catch e {
-    MsgBox % "Error in " e.What ", which was called at line " e.Line
-}|]
-  where
-    utilSource :: Text
-    utilSource = $(embedStringFile "ahk/Util.ahk")
+print("hello")
+print("hello1")
+print("hello2")
+print("hello3")
+|]

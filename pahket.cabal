@@ -11,6 +11,8 @@ maintainer:          nikitatchayka+hackage@outlook.com
 copyright:           2020 Nikita Tchayka
 build-type:          Simple
 tested-with:         GHC == 8.6.5
+extra-source-files:  ahk/Util.ahk
+                     ahk/WebSocket.ahk
 
 source-repository head
   type:                git
@@ -18,7 +20,15 @@ source-repository head
 
 common common-options
   build-depends:       base-noprelude
+                     , co-log
+                     , typed-process
                      , relude
+                     , temporary
+                     , exceptions
+                     , string-interpolate
+                     , text
+                     , file-embed
+                     , scotty
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -41,6 +51,7 @@ common common-options
                        DeriveFunctor
                        DeriveGeneric
                        DeriveTraversable
+                       DerivingStrategies
                        DoAndIfThenElse
                        EmptyDataDecls
                        ExistentialQuantification
@@ -59,6 +70,7 @@ common common-options
                        OverloadedStrings
                        PartialTypeSignatures
                        PatternGuards
+                       PatternSynonyms
                        PolyKinds
                        RankNTypes
                        RecordWildCards
@@ -73,8 +85,8 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Pahket
+                       Pahket.Core
                        Prelude
-  build-depends:       websockets
 
 executable pahket
   import:              common-options

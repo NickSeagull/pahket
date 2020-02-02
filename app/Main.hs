@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Pahket (someFunc)
+import Pahket (run)
 
 main :: IO ()
-main = someFunc
+main = run

@@ -1,6 +1,6 @@
 module Pahket.Finisher (run) where
 
-import Control.Concurrent (ThreadId, forkIO, killThread)
+import Control.Concurrent (ThreadId, killThread)
 import Pahket.Core
 import qualified System.Exit as Exit
 

@@ -23,7 +23,6 @@ run = do
       status status200
       text ""
     HTTP.get "/end" $ do
-      putTextLn "bye"
       status status200
       putMVar finishIt ()
       text ""

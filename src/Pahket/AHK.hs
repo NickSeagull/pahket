@@ -21,19 +21,19 @@ run contents = Temp.withSystemTempFile "pahket-eval.ahk" $ \filepath hnd -> do
   liftIO $ IO.hFlush hnd
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
   let args = ["/ErrorStdOut", filepath, "2>&1", "|more"]
-  log D (toText $ "Filepath: " <> filepath)
-  (_, out, err) <- readProcess $ proc ahk args
-  log I "StdOut (should be none):"
-  log I (decodeUtf8 out)
-  log I "StdErr"
-  log I (decodeUtf8 err)
+  (_, _, err) <- readProcess $ proc ahk args
+  putLBSLn err
 
 preparePahket :: Text -> Text
 preparePahket script =
   [i|
   #{includeJxon}
   #{includeUtil}
+  try {
   #{script}
+  } catch e {
+    print(e)
+  }
   pahket_exit_server()
   |]
   where

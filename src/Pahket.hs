@@ -3,31 +3,17 @@ module Pahket
   )
 where
 
-import Control.Concurrent (forkIO, killThread)
-import Network.HTTP.Types.Status
-import Network.Wai.Handler.Warp (defaultSettings, setPort)
+import Control.Concurrent (forkIO)
 import qualified Pahket.AHK as AHK
 import Pahket.Core
-import System.Environment (getArgs)
-import Web.Scotty as HTTP
+import qualified Pahket.Core.Init as Init
+import qualified Pahket.Finisher as Finisher
+import qualified Pahket.Server as Server
 
 run :: IO ()
 run = do
-  (filename : _) <- getArgs
-  contents <- readFileText filename
-  finishIt <- newEmptyMVar
-  t <- forkIO $ scottyOpts (def {verbose = 0, settings = setPort 3000 defaultSettings}) $ do
-    HTTP.post "/log" $ do
-      logMessage <- jsonData
-      putTextLn logMessage
-      status status200
-      text ""
-    HTTP.get "/end" $ do
-      status status200
-      putMVar finishIt ()
-      text ""
-  _ <- forkIO $ forever $ do
-    _ <- readMVar finishIt
-    killThread t
-    exitSuccess
-  runApp simpleEnv $ AHK.run contents
+  env <- Init.env
+  serverThreadId <- forkIO $ do
+    _ <- Server.run env
+    runApp env AHK.run
+  Finisher.run env serverThreadId

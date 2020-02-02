@@ -4,7 +4,7 @@ print(msg)
   BaseURL := "http://localhost:3000"
   Http := ComObjCreate("WinHTTP.WinHTTPRequest.5.1")
   ; Send the request
-  Http.Open("POST", BaseURL . "/log", False)
+  Http.Open("POST", BaseURL . "/stdout", False)
   Http.SetRequestHeader("Content-Type", "application/json")
   Http.Send(Jxon_Dump(msg))
 

@@ -32,6 +32,7 @@ common common-options
                      , data-default-class
                      , warp
                      , http-types
+                     , optparse-generic
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -89,7 +90,14 @@ library
   hs-source-dirs:      src
   exposed-modules:     Pahket
                        Pahket.Core
+                       Pahket.Core.Args
+                       Pahket.Core.Common
+                       Pahket.Core.Init
+                       Pahket.Core.Logging
+                       Pahket.Core.Version
                        Pahket.AHK
+                       Pahket.Finisher
+                       Pahket.Server
                        Prelude
 
 executable pahket

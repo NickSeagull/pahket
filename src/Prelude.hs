@@ -7,7 +7,10 @@ module Prelude
     module Colog,
     module System.Process.Typed,
     module Data.FileEmbed,
+    module Control.Concurrent.QSem,
     i,
+    MonadThrow (..),
+    MonadCatch (..),
     MonadMask (..),
     Default (..),
   )
@@ -18,14 +21,14 @@ import Colog
     LogAction,
     Message,
     WithLog,
-    log,
     richMessageAction,
     pattern D,
     pattern I,
   )
+import Control.Concurrent.QSem (QSem, newQSem, signalQSem, waitQSem)
 import Control.Monad.Catch
 import Data.Default.Class
 import Data.FileEmbed
 import Data.String.Interpolate (i)
-import Relude
+import Relude hiding (get)
 import System.Process.Typed

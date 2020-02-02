@@ -20,10 +20,11 @@ run ::
 run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
   logDebug "Getting input file name from env"
   inputFile <- asks envInputFile
+  port <- asks envServerPort
   logDebug "Reading input file"
   contents <- readFileText inputFile
   logDebug "Preparing and saving to temporary file"
-  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket contents)
+  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port contents)
   logDebug "Flushing file"
   liftIO $ IO.hFlush hnd
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
@@ -33,9 +34,11 @@ run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
   logDebug "Printing STDERR"
   putLBSLn err
 
-preparePahket :: Text -> Text
-preparePahket script =
+preparePahket :: Int -> Text -> Text
+preparePahket port script =
   [i|
+  #NoTrayIcon
+  global Port = #{show port :: Text}
   try {
   #{includeJxon}
   #{includeUtil}

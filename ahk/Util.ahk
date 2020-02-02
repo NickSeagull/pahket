@@ -1,7 +1,6 @@
 print(msg)
 {
-  ; TODO: Load port from env var
-  BaseURL := "http://localhost:3000"
+  BaseURL := "http://localhost:" . Port
   Http := ComObjCreate("WinHTTP.WinHTTPRequest.5.1")
   ; Send the request
   Http.Open("POST", BaseURL . "/stdout", False)
@@ -19,8 +18,7 @@ print(msg)
 
 pahket_exit_server()
 {
-  ; TODO: Load port from env var
-  BaseURL := "http://localhost:3000"
+  BaseURL := "http://localhost:" . Port
   Http := ComObjCreate("WinHTTP.WinHTTPRequest.5.1")
   ; Send the request
   Http.Open("GET", BaseURL . "/end", False)

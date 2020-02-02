@@ -8,6 +8,8 @@ module Prelude
     module System.Process.Typed,
     module Data.FileEmbed,
     i,
+    MonadMask (..),
+    Default (..),
   )
 where
 
@@ -21,6 +23,8 @@ import Colog
     pattern D,
     pattern I,
   )
+import Control.Monad.Catch
+import Data.Default.Class
 import Data.FileEmbed
 import Data.String.Interpolate (i)
 import Relude

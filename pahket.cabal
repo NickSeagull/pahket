@@ -12,7 +12,6 @@ copyright:           2020 Nikita Tchayka
 build-type:          Simple
 tested-with:         GHC == 8.6.5
 extra-source-files:  ahk/Util.ahk
-                     ahk/WebSocket.ahk
 
 source-repository head
   type:                git
@@ -29,6 +28,10 @@ common common-options
                      , text
                      , file-embed
                      , scotty
+                     , aeson
+                     , data-default-class
+                     , warp
+                     , http-types
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -86,6 +89,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Pahket
                        Pahket.Core
+                       Pahket.AHK
                        Prelude
 
 executable pahket

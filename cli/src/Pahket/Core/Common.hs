@@ -5,6 +5,8 @@ module Pahket.Core.Common
   )
 where
 
+import Pahket.Core.Config
+
 -- | Environment that is shared throughout the application
 data Env m
   = Env
@@ -12,7 +14,8 @@ data Env m
         envInputFile :: !FilePath,
         envLogSemaphore :: !QSem,
         envLogAction :: !(LogAction m Message),
-        envServerSemaphore :: !QSem
+        envServerSemaphore :: !QSem,
+        envProjectConfig :: !(Maybe Config)
       }
 
 -- | The env has logging

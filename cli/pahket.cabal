@@ -93,11 +93,11 @@ library
                        Pahket.Core
                        Pahket.Core.Args
                        Pahket.Core.Common
+                       Pahket.Core.Config
                        Pahket.Core.Init
                        Pahket.Core.Logging
                        Pahket.Core.Version
                        Pahket.AHK
-                       Pahket.Config
                        Pahket.Finisher
                        Pahket.Server
                        Prelude

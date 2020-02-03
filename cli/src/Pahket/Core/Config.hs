@@ -1,6 +1,12 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module Pahket.Config where
+module Pahket.Core.Config
+  ( Config (..),
+    Package (..),
+    Dependency (..),
+    configCodec,
+  )
+where
 
 import Toml
 

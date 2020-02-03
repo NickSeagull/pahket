@@ -38,19 +38,21 @@ preparePahket :: Int -> Text -> Text
 preparePahket port script =
   [i|
   #NoTrayIcon
-  global Port = #{show port :: Text}
+  global __PahketBaseURL__ := "http://localhost:" . "#{show port :: Text}"
   try {
   #{includeJxon}
-  #{includeUtil}
+  #{includeInterop}
+  #{includeStdLib}
   #{script}
   } catch e {
     print(e)
   }
-  pahket_exit_server()
+  __Pahket__.exitServer()
   |]
   where
     includeJxon = $(embedStringFile "ahk/Jxon.ahk") :: Text
-    includeUtil = $(embedStringFile "ahk/Util.ahk") :: Text
+    includeInterop = $(embedStringFile "ahk/Interop.ahk") :: Text
+    includeStdLib = $(embedStringFile "ahk/StdLib.ahk") :: Text
 
 exampleProgram :: Text
 exampleProgram =

@@ -13,7 +13,12 @@ import qualified Pahket.Server as Server
 run :: IO ()
 run = do
   env <- Init.env
-  serverThreadId <- forkIO $ do
-    _ <- Server.run env
-    runApp env AHK.run
-  Finisher.run env serverThreadId
+  serverThreadId <- forkIO $ runApp env $ do
+    logDebug "Starting server"
+    _ <- liftIO $ Server.run env
+    logDebug "Running AHK app"
+    AHK.run
+  runApp env $ do
+    logDebug "Starting finisher"
+    liftIO $ Finisher.run env serverThreadId
+    logDebug "Bye"

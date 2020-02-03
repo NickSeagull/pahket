@@ -2,8 +2,7 @@
 name = "hello_world"
 version = "0.0.1"
 authors = ["nikitatchayka+pahket@outlook.com"]
-main = "HelloWorld.ahk"
 
-[[dependency]]
+[[dependencies]]
 name = "AHKhttp"
 git = "https://github.com/zhamlin/AHKhttp.git"

@@ -30,8 +30,8 @@ before_build:
   - cabal %CABOPTS% update
 
 build_script:
-  - cabal %CABOPTS% build --enable-tests all
-  - cabal %CABOPTS% test  --enable-tests all
+  - cd cli; cabal %CABOPTS% build --enable-tests all
+  - cd cli; cabal %CABOPTS% test  --enable-tests all
 
 skip_commits:
   files:

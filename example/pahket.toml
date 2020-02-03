@@ -1,0 +1,9 @@
+[package]
+name = "hello_world"
+version = "0.0.1"
+authors = ["nikitatchayka+pahket@outlook.com"]
+main = "HelloWorld.ahk"
+
+[[dependency]]
+name = "AHKhttp"
+git = "https://github.com/zhamlin/AHKhttp.git"

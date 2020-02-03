@@ -33,6 +33,7 @@ common common-options
                      , warp
                      , http-types
                      , optparse-generic
+                     , tomland
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -92,6 +93,7 @@ library
                        Pahket.Core
                        Pahket.Core.Args
                        Pahket.Core.Common
+                       Pahket.Core.Config
                        Pahket.Core.Init
                        Pahket.Core.Logging
                        Pahket.Core.Version

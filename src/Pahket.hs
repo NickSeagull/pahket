@@ -1,5 +1,6 @@
 module Pahket
   ( run,
+    runWithEnv,
   )
 where
 
@@ -13,6 +14,10 @@ import qualified Pahket.Server as Server
 run :: IO ()
 run = do
   env <- Init.env
+  runWithEnv env
+
+runWithEnv :: Env App -> IO ()
+runWithEnv env = do
   serverThreadId <- forkIO $ runApp env $ do
     logDebug "Starting server"
     _ <- liftIO $ Server.run env

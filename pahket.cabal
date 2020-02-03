@@ -115,6 +115,8 @@ test-suite pahket-test
                      , hspec
                      , hspec-discover
                      , ghc
+                     , silently
+  other-modules:       Pahket.AHKSpec
   build-tool-depends: hspec-discover:hspec-discover == 2.*
 
 benchmark pahket-benchmark

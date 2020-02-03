@@ -1,10 +1,10 @@
 cradle:
   cabal:
-    - path: "./benchmark"
+    - path: "cli/benchmark"
       component: "benchmark:pahket-benchmark"
-    - path: "./app"
+    - path: "cli/app"
       component: "exe:pahket"
-    - path: "./test"
+    - path: "cli/test"
       component: "test:pahket-test"
-    - path: "./src"
+    - path: "cli/src"
       component: "lib:pahket"

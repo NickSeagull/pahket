@@ -31,8 +31,11 @@ run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
   let args = ["/ErrorStdOut", filepath, "2>&1", "|more"]
   logDebug ("Spawning AutoHotkey with path " <> show ahk <> " and args " <> show args)
   (_, _, err) <- readProcess $ proc ahk args
-  logDebug "Printing STDERR"
-  putLBSLn err
+  when (err /= "") $ do
+    logDebug "Printing STDERR"
+    putLBSLn err
+    serverSemaphore <- asks envServerSemaphore
+    liftIO $ signalQSem serverSemaphore
 
 preparePahket :: Int -> Text -> Text
 preparePahket port script =

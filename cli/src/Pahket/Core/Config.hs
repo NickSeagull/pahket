@@ -15,7 +15,7 @@ data Config
       { package :: Package,
         dependencies :: [Dependency]
       }
-  deriving (Generic)
+  deriving (Generic, Show)
 
 configCodec :: TomlCodec Config
 configCodec = genericCodec
@@ -26,7 +26,7 @@ data Package
         version :: Text,
         authors :: [Text]
       }
-  deriving (Generic)
+  deriving (Generic, Show)
 
 instance HasCodec Package where
   hasCodec = Toml.table genericCodec
@@ -36,7 +36,7 @@ data Dependency
       { name :: Text,
         git :: Text
       }
-  deriving (Generic)
+  deriving (Generic, Show)
 
 instance HasItemCodec Dependency where
   hasItemCodec = Right genericCodec

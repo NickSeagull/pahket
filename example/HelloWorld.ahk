@@ -1,5 +1,6 @@
-#Include <AHKhttp\AHKhttp.ahk>
-print("Hello, world!")
+SetWorkingDir, %A_ScriptDir%
+#Include <AHKhttp\AHKhttp>
 
 ;; Using library
-Uri.Decode("example")
+x := Uri.Decode("example")
+MsgBox % x

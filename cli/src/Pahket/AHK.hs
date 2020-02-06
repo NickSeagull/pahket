@@ -8,6 +8,7 @@ module Pahket.AHK
 where
 
 import Pahket.Core
+import qualified Pahket.Core.Config as Config
 import qualified System.IO as IO
 import qualified System.IO.Temp as Temp
 
@@ -18,6 +19,11 @@ run ::
   MonadIO m =>
   m ()
 run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
+  logDebug "Cloning dependencies"
+  maybeConfig <- asks envProjectConfig
+  let config = maybeConfig ?: error "No project config found, have you created a 'pahket.toml' file?"
+  forM_ (Config.dependencies config) $ \(Config.Dependency name git) ->
+    runProcess_ $ proc "git" ["clone", toString git, "lib\\" <> toString name]
   logDebug "Getting input file name from env"
   inputFile <- asks envInputFile
   port <- asks envServerPort

@@ -8,6 +8,7 @@ module Prelude
     module System.Process.Typed,
     module Data.FileEmbed,
     module Control.Concurrent.QSem,
+    module System.FilePath,
     i,
     MonadThrow (..),
     MonadCatch (..),
@@ -31,4 +32,5 @@ import Data.Default.Class
 import Data.FileEmbed
 import Data.String.Interpolate (i)
 import Relude hiding (get)
+import System.FilePath
 import System.Process.Typed

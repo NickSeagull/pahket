@@ -13,7 +13,10 @@ import Toml hiding (Env)
 
 env :: IO (Env App)
 env = do
-  config <- loadConfig
+  maybeConfig <- loadConfig
+  let userConfig = maybeConfig ?: Config.Config (Config.Package "" "" []) []
+  let defaultDependencies = [Config.Dependency "AutoHotkey-JSON" "git@github.com:cocobelgica/AutoHotkey-JSON.git", Config.Dependency "PahketStdLib" "git@github.com:pahket/pahket.git"]
+  let config = userConfig {Config.dependencies = Config.dependencies userConfig <> defaultDependencies}
   Args.Value {verbose, port, version, inputFile} <- Args.get
   if version
     then do
@@ -29,7 +32,7 @@ env = do
             envLogSemaphore = logSemaphore,
             envServerSemaphore = serverSemaphore,
             envLogAction = if verbose then richMessageAction else noLogAction,
-            envProjectConfig = config
+            envProjectConfig = Just config
           }
 
 loadConfig :: IO (Maybe Config.Config)

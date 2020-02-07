@@ -3,7 +3,6 @@
 
 module Pahket.AHK
   ( run,
-    exampleProgram,
   )
 where
 
@@ -18,19 +17,19 @@ run ::
   MonadMask m =>
   MonadIO m =>
   m ()
-run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
+run = Temp.withTempFile "." "runner.ahk" $ \filepath hnd -> do
   logDebug "Cloning dependencies"
   maybeConfig <- asks envProjectConfig
   let config = maybeConfig ?: error "No project config found, have you created a 'pahket.toml' file?"
   forM_ (Config.dependencies config) $ \(Config.Dependency name git) ->
     runProcess_ $ proc "git" ["clone", toString git, "lib\\" <> toString name]
   logDebug "Getting input file name from env"
-  inputFile <- asks envInputFile
+  inputFilePath <- asks envInputFile
   port <- asks envServerPort
   logDebug "Reading input file"
-  contents <- readFileText inputFile
+  contents <- readFileText inputFilePath
   logDebug "Preparing and saving to temporary file"
-  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port contents)
+  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port inputFilePath)
   logDebug "Flushing file"
   liftIO $ IO.hFlush hnd
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
@@ -43,31 +42,19 @@ run = Temp.withSystemTempFile "pahket.ahk" $ \filepath hnd -> do
     serverSemaphore <- asks envServerSemaphore
     liftIO $ signalQSem serverSemaphore
 
-preparePahket :: Int -> Text -> Text
-preparePahket port script =
+preparePahket :: Int -> FilePath -> Text
+preparePahket port inputFilePath =
   [i|
+  MsgBox, #{takeDirectory inputFilePath}
+  SetWorkingDir, #{takeDirectory inputFilePath}
   #NoTrayIcon
   global __PahketBaseURL__ := "http://localhost:" . "#{show port :: Text}"
   try {
-  #{includeJxon}
-  #{includeInterop}
-  #{includeStdLib}
-  #{script}
+  #Include <AutoHotkey-JSON\\Jxon>
+  #Include <PahketStdLib\\stdlib\\StdLib>
+  #Include #{inputFilePath}
   } catch e {
     print(e)
   }
   __Pahket__.exitServer()
   |]
-  where
-    includeJxon = $(embedStringFile "ahk/Jxon.ahk") :: Text
-    includeInterop = $(embedStringFile "ahk/Interop.ahk") :: Text
-    includeStdLib = $(embedStringFile "ahk/StdLib.ahk") :: Text
-
-exampleProgram :: Text
-exampleProgram =
-  [i|
-print("hello")
-print("hello1")
-print("hello2")
-print("hello3")
-|]

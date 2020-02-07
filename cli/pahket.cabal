@@ -35,6 +35,7 @@ common common-options
                      , optparse-generic
                      , tomland
                      , filepath
+                     , directory
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns

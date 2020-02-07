@@ -8,6 +8,7 @@ where
 
 import Pahket.Core
 import qualified Pahket.Core.Config as Config
+import qualified System.Directory as Directory
 import qualified System.IO as IO
 import qualified System.IO.Temp as Temp
 
@@ -17,19 +18,23 @@ run ::
   MonadMask m =>
   MonadIO m =>
   m ()
-run = Temp.withTempFile "." "runner.ahk" $ \filepath hnd -> do
+run = Temp.withTempFile "." "pahket" $ \filepath hnd -> do
+  cwd <- liftIO Directory.getCurrentDirectory
   logDebug "Cloning dependencies"
   maybeConfig <- asks envProjectConfig
   let config = maybeConfig ?: error "No project config found, have you created a 'pahket.toml' file?"
-  forM_ (Config.dependencies config) $ \(Config.Dependency name git) ->
-    runProcess_ $ proc "git" ["clone", toString git, "lib\\" <> toString name]
+  forM_ (Config.dependencies config) $ \(Config.Dependency name git) -> do
+    downloadedAlready <- liftIO $ Directory.doesPathExist ("lib\\" <> toString name)
+    unless downloadedAlready
+      $ runProcess_
+      $ proc "git" ["clone", toString git, "lib\\" <> toString name]
   logDebug "Getting input file name from env"
   inputFilePath <- asks envInputFile
   port <- asks envServerPort
   logDebug "Reading input file"
   contents <- readFileText inputFilePath
   logDebug "Preparing and saving to temporary file"
-  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port inputFilePath)
+  liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port cwd inputFilePath)
   logDebug "Flushing file"
   liftIO $ IO.hFlush hnd
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
@@ -42,19 +47,24 @@ run = Temp.withTempFile "." "runner.ahk" $ \filepath hnd -> do
     serverSemaphore <- asks envServerSemaphore
     liftIO $ signalQSem serverSemaphore
 
-preparePahket :: Int -> FilePath -> Text
-preparePahket port inputFilePath =
+preparePahket :: Int -> FilePath -> FilePath -> Text
+preparePahket port cwd inputFilePath =
   [i|
-  MsgBox, #{takeDirectory inputFilePath}
-  SetWorkingDir, #{takeDirectory inputFilePath}
+  OnExit, __pahket__autoremove__
+  SetWorkingDir, #{cwd}
   #NoTrayIcon
   global __PahketBaseURL__ := "http://localhost:" . "#{show port :: Text}"
   try {
   #Include <AutoHotkey-JSON\\Jxon>
+  #Include <PahketStdLib\\stdlib\\Interop>
   #Include <PahketStdLib\\stdlib\\StdLib>
   #Include #{inputFilePath}
   } catch e {
     print(e)
   }
   __Pahket__.exitServer()
+
+  __pahket__autoremove__:
+    filedelete, %A_ScriptFullPath%
+    exitapp
   |]

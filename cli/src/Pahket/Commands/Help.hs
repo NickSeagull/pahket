@@ -5,7 +5,6 @@ module Pahket.Commands.Help
   )
 where
 
-import Pahket.Commands.Core (availableCommands)
 import qualified RIO.Text as Text
 
 run :: IO ()
@@ -22,3 +21,7 @@ A command might have more sub-commands, for more info, run:
 
 pahket <command> help
 |]
+
+availableCommands :: [Text]
+availableCommands =
+  ["help"]

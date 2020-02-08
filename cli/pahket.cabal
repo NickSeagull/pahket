@@ -93,6 +93,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Pahket
                        Pahket.Commands.Help
+                       Pahket.Commands.Version
                        Pahket.AHK
                        Pahket.Finisher
                        Pahket.Server

@@ -24,4 +24,4 @@ pahket <command> help
 
 availableCommands :: [Text]
 availableCommands =
-  ["help"]
+  ["help", "version"]

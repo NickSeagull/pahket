@@ -10,12 +10,11 @@ where
 -- import qualified Pahket.Finisher as Finisher
 -- import qualified Pahket.Server as Server
 import qualified Pahket.Commands.Help as Help
+import qualified Pahket.Commands.Version as Version
 
 run :: [String] -> IO ()
-run args =
-  case args of
-    (_ : _) -> Help.run
-    _ -> Help.run
+run ("version" : _) = Version.run
+run _ = Help.run
 -- env <- Init.env
 -- runWithEnv env
 

@@ -93,7 +93,6 @@ library
   exposed-modules:     Pahket
                        Pahket.Commands.Help
                        Pahket.Commands.Install
-                       Pahket.Commands.Run
                        Pahket.Commands.Version
                        Pahket.Services.Dependencies
                        Pahket.Services.FileSystem

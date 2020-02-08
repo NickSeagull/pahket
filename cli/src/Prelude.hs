@@ -1,7 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
-
--- needed for ormolu
-
 module Prelude
   ( module RIO,
     i,

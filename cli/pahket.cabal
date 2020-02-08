@@ -19,9 +19,9 @@ source-repository head
 
 common common-options
   build-depends:       base-noprelude
-                     , co-log
                      , typed-process
-                     , relude
+                     , rio
+                     , vector >= 0.12.1.2
                      , temporary
                      , exceptions
                      , string-interpolate
@@ -94,12 +94,6 @@ library
   exposed-modules:     Pahket
                        Pahket.Commands.Core
                        Pahket.Commands.Help
-                       Pahket.Core
-                       Pahket.Core.Args
-                       Pahket.Core.Common
-                       Pahket.Core.Config
-                       Pahket.Core.Init
-                       Pahket.Core.Logging
                        Pahket.AHK
                        Pahket.Finisher
                        Pahket.Server

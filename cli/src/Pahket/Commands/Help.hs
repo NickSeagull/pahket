@@ -5,13 +5,14 @@ module Pahket.Commands.Help
   )
 where
 
-import qualified Data.Text as Text
 import Pahket.Commands.Core (availableCommands)
+import qualified RIO.Text as Text
 
 run :: IO ()
 run =
-  putTextLn
-    [i|
+  runSimpleApp $
+    logInfo
+      [i|
 Usage: pahket <command>
 
 where <command> is one of:

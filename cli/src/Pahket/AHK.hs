@@ -31,8 +31,6 @@ run = Temp.withTempFile "." "pahket" $ \filepath hnd -> do
   logDebug "Getting input file name from env"
   inputFilePath <- asks envInputFile
   port <- asks envServerPort
-  logDebug "Reading input file"
-  contents <- readFileText inputFilePath
   logDebug "Preparing and saving to temporary file"
   liftIO $ IO.hPutStrLn hnd (toString $ preparePahket port cwd inputFilePath)
   logDebug "Flushing file"

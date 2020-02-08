@@ -98,10 +98,7 @@ library
                        Pahket.Services.Dependencies
                        Pahket.Services.FileSystem
                        Pahket.Services.Git
-                       Pahket.AHK
                        Pahket.App
-                       Pahket.Finisher
-                       Pahket.Server
                        Prelude
 
 executable pahket

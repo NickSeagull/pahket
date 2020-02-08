@@ -19,9 +19,9 @@ source-repository head
 
 common common-options
   build-depends:       base-noprelude
-                     , co-log
                      , typed-process
-                     , relude
+                     , rio
+                     , vector >= 0.12.1.2
                      , temporary
                      , exceptions
                      , string-interpolate
@@ -32,10 +32,9 @@ common common-options
                      , data-default-class
                      , warp
                      , http-types
-                     , optparse-generic
-                     , tomland
                      , filepath
-                     , directory
+                     , path
+                     , path-io
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -92,16 +91,13 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Pahket
-                       Pahket.Core
-                       Pahket.Core.Args
-                       Pahket.Core.Common
-                       Pahket.Core.Config
-                       Pahket.Core.Init
-                       Pahket.Core.Logging
-                       Pahket.Core.Version
-                       Pahket.AHK
-                       Pahket.Finisher
-                       Pahket.Server
+                       Pahket.Commands.Help
+                       Pahket.Commands.Install
+                       Pahket.Commands.Version
+                       Pahket.Services.Dependencies
+                       Pahket.Services.FileSystem
+                       Pahket.Services.Git
+                       Pahket.App
                        Prelude
 
 executable pahket

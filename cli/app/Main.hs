@@ -1,6 +1,9 @@
 module Main (main) where
 
-import Pahket (run)
+import qualified Pahket
+import qualified System.Environment as Environment
 
 main :: IO ()
-main = run
+main = do
+  args <- Environment.getArgs
+  Pahket.run args

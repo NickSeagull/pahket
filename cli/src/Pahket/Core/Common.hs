@@ -5,6 +5,7 @@ module Pahket.Core.Common
   )
 where
 
+import Control.Concurrent.QSem (QSem)
 import Pahket.Core.Config
 
 -- | Environment that is shared throughout the application

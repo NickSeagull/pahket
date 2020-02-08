@@ -92,13 +92,14 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Pahket
+                       Pahket.Commands.Core
+                       Pahket.Commands.Help
                        Pahket.Core
                        Pahket.Core.Args
                        Pahket.Core.Common
                        Pahket.Core.Config
                        Pahket.Core.Init
                        Pahket.Core.Logging
-                       Pahket.Core.Version
                        Pahket.AHK
                        Pahket.Finisher
                        Pahket.Server

@@ -1,6 +1,7 @@
 module Pahket.Server (run) where
 
 import Control.Concurrent (ThreadId, forkIO)
+import qualified Control.Concurrent.QSem as QSem
 import Network.HTTP.Types.Status (status200)
 import Network.Wai.Handler.Warp (defaultSettings, setPort)
 import Pahket.Core
@@ -21,4 +22,4 @@ run env = forkIO
     HTTP.get "/end" $ do
       status status200
       text ""
-      liftIO $ signalQSem (envServerSemaphore env)
+      liftIO $ QSem.signalQSem (envServerSemaphore env)

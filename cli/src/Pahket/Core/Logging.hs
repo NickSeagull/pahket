@@ -6,6 +6,7 @@ module Pahket.Core.Logging
 where
 
 import qualified Colog
+import qualified Control.Concurrent.QSem as QSem
 import Pahket.Core.Common
 
 -- | Log a text with debug severity
@@ -36,9 +37,9 @@ log ::
   m ()
 log pat msg = do
   sem <- asks envLogSemaphore
-  liftIO $ waitQSem sem
+  liftIO $ QSem.waitQSem sem
   Colog.log pat msg
-  liftIO $ signalQSem sem
+  liftIO $ QSem.signalQSem sem
 
 noLogAction :: Applicative m => Colog.LogAction m a
 noLogAction = Colog.LogAction (const $ pure ())

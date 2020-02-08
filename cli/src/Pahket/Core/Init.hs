@@ -8,8 +8,8 @@ import qualified Pahket.Core.Args as Args
 import Pahket.Core.Common
 import qualified Pahket.Core.Config as Config
 import Pahket.Core.Logging (noLogAction)
-import qualified Pahket.Core.Version as V
 import Toml hiding (Env)
+import qualified Control.Concurrent.QSem as QSem
 
 env :: IO (Env App)
 env = do
@@ -19,12 +19,10 @@ env = do
   let config = userConfig {Config.dependencies = Config.dependencies userConfig <> defaultDependencies}
   Args.Value {verbose, port, version, inputFile} <- Args.get
   if version
-    then do
-      putTextLn V.version
-      exitSuccess
+    then exitSuccess
     else do
-      logSemaphore <- newQSem 1
-      serverSemaphore <- newQSem 0
+      logSemaphore <- QSem.newQSem 1
+      serverSemaphore <- QSem.newQSem 0
       pure $
         Env
           { envServerPort = port ?: 3000,

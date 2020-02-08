@@ -6,11 +6,13 @@ module Pahket.AHK
   )
 where
 
+import qualified Control.Concurrent.QSem as QSem
 import Pahket.Core
 import qualified Pahket.Core.Config as Config
 import qualified System.Directory as Directory
 import qualified System.IO as IO
 import qualified System.IO.Temp as Temp
+import qualified System.Process.Typed as Process
 
 run ::
   MonadReader (Env m) m =>
@@ -26,8 +28,8 @@ run = Temp.withTempFile "." "pahket" $ \filepath hnd -> do
   forM_ (Config.dependencies config) $ \(Config.Dependency name git) -> do
     downloadedAlready <- liftIO $ Directory.doesPathExist ("lib\\" <> toString name)
     unless downloadedAlready
-      $ runProcess_
-      $ proc "git" ["clone", toString git, "lib\\" <> toString name]
+      $ Process.runProcess_
+      $ Process.proc "git" ["clone", toString git, "lib\\" <> toString name]
   logDebug "Getting input file name from env"
   inputFilePath <- asks envInputFile
   port <- asks envServerPort
@@ -38,12 +40,12 @@ run = Temp.withTempFile "." "pahket" $ \filepath hnd -> do
   let ahk = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe"
   let args = ["/ErrorStdOut", filepath, "2>&1", "|more"]
   logDebug ("Spawning AutoHotkey with path " <> show ahk <> " and args " <> show args)
-  (_, _, err) <- readProcess $ proc ahk args
+  (_, _, err) <- Process.readProcess $ Process.proc ahk args
   when (err /= "") $ do
     logDebug "Printing STDERR"
     putLBSLn err
     serverSemaphore <- asks envServerSemaphore
-    liftIO $ signalQSem serverSemaphore
+    liftIO $ QSem.signalQSem serverSemaphore
 
 preparePahket :: Int -> FilePath -> FilePath -> Text
 preparePahket port cwd inputFilePath =

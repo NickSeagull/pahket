@@ -32,10 +32,9 @@ common common-options
                      , data-default-class
                      , warp
                      , http-types
-                     , optparse-generic
-                     , tomland
                      , filepath
-                     , directory
+                     , path
+                     , path-io
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -93,8 +92,13 @@ library
   hs-source-dirs:      src
   exposed-modules:     Pahket
                        Pahket.Commands.Help
+                       Pahket.Commands.Install
                        Pahket.Commands.Version
+                       Pahket.Services.Dependencies
+                       Pahket.Services.FileSystem
+                       Pahket.Services.Git
                        Pahket.AHK
+                       Pahket.App
                        Pahket.Finisher
                        Pahket.Server
                        Prelude

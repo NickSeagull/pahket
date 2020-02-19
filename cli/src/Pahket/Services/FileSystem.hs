@@ -12,7 +12,8 @@ data Service
   = Service
       { listAllFiles :: forall env. FilePath -> RIO env [FilePath],
         readFile :: forall env. FilePath -> RIO env Text,
-        doesDirExist :: forall env. FilePath -> RIO env Bool
+        doesDirExist :: forall env. FilePath -> RIO env Bool,
+        renameFile :: forall env. FilePath -> FilePath -> RIO env ()
       }
 
 class Access env where
@@ -27,7 +28,8 @@ new =
     Service
       { listAllFiles = listAllFilesImpl,
         readFile = readFileImpl,
-        doesDirExist = doesDirExistImpl
+        doesDirExist = doesDirExistImpl,
+        renameFile = renameFileImpl
       }
 
 listAllFilesImpl :: FilePath -> RIO env [FilePath]
@@ -43,3 +45,9 @@ doesDirExistImpl :: FilePath -> RIO env Bool
 doesDirExistImpl fp = do
   dir <- Path.parseRelDir fp
   PathIO.doesDirExist dir
+
+renameFileImpl :: FilePath -> FilePath -> RIO env ()
+renameFileImpl source destination = do
+  src <- Path.parseAbsFile source
+  dest <- Path.parseRelFile destination
+  PathIO.renameFile src dest
